@@ -147,6 +147,12 @@ dead_players() -> (
     print(player(), filter(entity_list('player'), query(_, 'has_scoreboard_tag', 'dead')));
 );
 
+investigate(player_name) -> (
+    //switch to spectator mode and tp to a player
+    modify(player(), 'gamemode', 'spectator');
+    modify(player(), 'pos', player(player_name)~'pos'- player(player_name)~'look');
+);
+
 //get info command
 get_info(player_name) -> (
     //CLASS
