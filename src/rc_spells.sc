@@ -259,7 +259,7 @@ _lightning_bolt(player) -> (
 
 //SEER
 _guidance(player) -> (
-    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Guidance","color":"red"}]');
+    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Guidance","color":"red","clickEvent":{"action":"run_command","value":"/script in realmscraft run investigate(\''+ player() +'\')"}}]');
 
     //cooldown
     cd_slot = _inventory_locate(player, 'carrot_on_a_stick', '{Tags:["guidance_focus"]}');
@@ -294,7 +294,7 @@ _deathwatch(player) -> (
 );
 
 _divine_aid(player) -> (
-    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Divine Aid","color":"yellow"}]');
+    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Divine Aid","color":"yellow","clickEvent":{"action":"run_command","value":"/script in realmscraft run investigate(\''+ player() +'\')"}}]');
 
     //cooldown
     cd_slot = _inventory_locate(player, 'carrot_on_a_stick', '{Tags:["divine_aid_focus"]}');
@@ -302,7 +302,7 @@ _divine_aid(player) -> (
 );
 
 _vision(player) -> (
-    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Vision","color":"green"}]');
+    run('tellraw @a[tag=marshal] [{"text":"'+ player +' has used Vision","color":"green","clickEvent":{"action":"run_command","value":"/script in realmscraft run investigate(\''+ player() +'\')"}}]');
 
     //cooldown
     cd_slot = _inventory_locate(player, 'carrot_on_a_stick', '{Tags:["vision_focus"]}');
