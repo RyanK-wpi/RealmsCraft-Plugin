@@ -388,9 +388,12 @@ _cast_include_player(p, r) -> (
 _revive_corpse(corpse) -> (
     //get player name from corpse
     player_to_revive = query(corpse, 'custom_name') -'\'s body';
-    revive_pos = corpse~'pos';
+
+    //check for player to revive. (E.g. the player has logged out)
+    if(player(player_to_revive),
 
     //tp player to corpse position
+    (revive_pos = corpse~'pos';
     modify(player(player_to_revive),'pos', revive_pos);
     modify(player(player_to_revive), 'gamemode', adventure);  //set gamemode
     modify(player(player_to_revive), 'effect', 'resistance'); //remove resistance from dead players
@@ -401,6 +404,11 @@ _revive_corpse(corpse) -> (
     particle('happy_villager', revive_pos);
     modify(corpse, 'remove');
     set(l(_cx, 0, _cz), 'air');     //deletes bed
+    ),
+
+    //if no player, warn marshals
+    run('tellraw @a[tag=marshal] [{"text":"'+ player_to_revive +' cannot be found!","color":"red","clickEvent":{"action":"run_command","value":"/tp @s '+ corpse~'pos' +'"}}]');
+    );
 );
 
 _lay_down(player, num) -> (
