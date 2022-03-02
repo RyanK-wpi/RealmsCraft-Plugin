@@ -20,7 +20,7 @@ __on_start() -> (
 );
 
 __on_player_connects(player) -> (
-    schedule(0,'_player_setup', player);
+    schedule(2,'_player_setup', player);
 );
 
 _realmscraft_setup() -> (
@@ -52,7 +52,7 @@ _realmscraft_setup() -> (
 
 _player_setup(player) -> (
     modify(player, 'effect', 'saturation', 999999, 255, false, false);                                                  //disable hunger bar
-    modify(player, 'spawn_point', l(100.5, 88, 607.5));                                                                 //move spawnpoint to deathbox for cleaner respawns
+    modify(player, 'spawn_point', l(2000.5, 100, -499.5));                                                              //move spawnpoint to deathbox for cleaner respawns
     if(!query(player, 'has_scoreboard_tag', 'marshal'), modify(player, 'gamemode', 'adventure'));                       //non-marshals start in adventure mode
     if(query(player, 'has_scoreboard_tag', 'spectator'), modify(player, 'gamemode', 'spectator'));                      //special spectator role
     //if(!query(player, 'has_scoreboard_tag', 'active_player'), classbot);                                              //don't let active players reset class
@@ -129,7 +129,8 @@ _constant_effects() -> (
 
 revive(player_to_revive) -> (
     //find players corpse
-    map(filter(entity_list('zombie'),_==player_to_revive+'\'s body'),_revive_corpse(_));
+    if(!map(filter(entity_list('zombie'),_==player_to_revive+'\'s body'),_revive_corpse(_)),
+        run('tellraw @a[tag=marshal] [{"text":"Can\'t find '+ player_to_revive +'\'s body!"}]'));
 );
 
 revive_all() -> (
