@@ -35,8 +35,7 @@ _create_corpse(player) -> (
     //summon entities
     set(l(c_x, 0, c_z), 'red_bed[part=head]');
     new_corpse = spawn('zombie',query(player, 'pos'), corpse_data);
-    game_tick();
-    modify(new_corpse, 'pos', l(c_x, c_y+0.1, c_z)); //offset added to keep full body above block
+    schedule(2, '_set_corpse_pos', new_corpse, c_x, c_y, c_z);
 
     //schedule regenerating corpses to revive
     if(query(new_corpse, 'has_scoreboard_tag', 'regenerating'),
@@ -45,16 +44,21 @@ _create_corpse(player) -> (
         );
 );
 
+_set_corpse_pos(new_corpse, c_x, c_y, c_z) -> {
+    modify(new_corpse, 'pos', l(c_x, c_y+0.1, c_z)) //offset added to keep full body above block
+};
+
 _player_dies(player) -> (
     print(filter(entity_list('player'), query(_, 'has_scoreboard_tag', 'marshal')), player + ' has died!');
     modify(player, 'tag', 'dead');
+    modify(player, 'effect', 'blindness', 20, 255, false, false);
     modify(player, 'effect', 'saturation', 999999, 255, false, false);                                                  //disable hunger bar
     if(query(player, 'has_scoreboard_tag', 'deathwatch'),
         //set deathwatched players to spectator
         modify(player, 'gamemode', 'spectator'),
 
         //Send dead players to death box, make them invulnerable
-        (modify(player, 'location', 100.5, 88, 607.5, -90, 22.5);
+        (modify(player, 'location', 2000.5, 100, -499.5, -90, 8.5);
          modify(player, 'effect', 'resistance', 999999, 5, false, false);
          )
     );
