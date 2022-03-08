@@ -133,6 +133,10 @@ revive(player_to_revive) -> (
         run('tellraw @a[tag=marshal] [{"text":"Can\'t find '+ player_to_revive +'\'s body!"}]'));
 );
 
+revive_self() -> (
+    revive(player());
+);
+
 revive_all() -> (
     //find players corpse
     map(filter(entity_list('zombie'),query(_,'has_scoreboard_tag','corpse')),_revive_corpse(_));
