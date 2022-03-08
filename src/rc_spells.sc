@@ -187,7 +187,7 @@ _ward_undead(player) -> (
     ward_targets = entity_area('undead', player, l(2.5, 2.5, 2.5));
     for(ward_targets,
         if(!query(_, 'has_scoreboard_tag', 'corpse'),       //dont ward corpses!
-            run('execute as '+ query(_, 'command_name') +' at @s if block ^ ^0 ^-1 air run teleport @s ^ ^0 ^-0.5 facing entity '+ player +' feet')
+            run('execute as '+ query(_, 'command_name') +' at @s if block ^ ^0 ^-1 air run teleport @s ^ ^0.1 ^-0.2 facing entity '+ player +' feet')
         );
     );
 );
@@ -197,9 +197,9 @@ _enfeeble_being(player) -> (
     if(target != null,
         if(target~'type' != 'player',
             (//effects
-            modify(target, 'effect', 'weakness', 999999, 0, false, false);
-            modify(target, 'effect', 'mining_fatigue', 999999, 2, false, false);
-            modify(target, 'effect', 'slowness', 999999, 2, false, false);
+            modify(target, 'effect', 'weakness', 2400, 0, false, false);
+            modify(target, 'effect', 'mining_fatigue', 2400, 2, false, false);
+            modify(target, 'effect', 'slowness', 2400, 2, false, false);
             modify(target, 'tag', 'enfeebled');
             //particle('smoke',target~'pos');
 
