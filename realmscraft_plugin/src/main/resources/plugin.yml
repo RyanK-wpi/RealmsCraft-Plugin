@@ -1,0 +1,19 @@
+name: RealmsCraft
+version: ${project.version}
+main: me.copdead.realmscraft.RealmsCraft
+api-version: 1.13
+authors: [RyanKeller]
+description: A plugin for realmscraft questing
+commands:
+    givespells:
+        description: Give player spell items
+        usage: /<command>
+    investigate:
+        description: begin spectating a players perspective
+        usage: /<command> <player>
+    nick:
+        description: Gives player a nickname
+        usage: /<command> <player> <nickname>
+    afterlife:
+        description: sets the location players go when they die
+        usage: /<command> <world> <x> <y> <z>

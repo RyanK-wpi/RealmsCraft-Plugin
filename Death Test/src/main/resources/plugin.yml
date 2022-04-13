@@ -1,0 +1,16 @@
+name: Realmscraft_death_test
+version: ${project.version}
+main: me.copdead.realmscraft_death_test.Realmscraft_death_test
+api-version: 1.13
+authors: [RyanKeller]
+description: A plugin for realmscraft questing
+commands:
+    revive:
+        description: revives a player
+        usage: /<command> <player>
+    afterlife:
+        description: sets the location players go when they die
+        usage: /<command> <world> <x> <y> <z>
+    selectclass:
+        description: gives a player a class select book
+        usage: /<command> <player>

@@ -1,0 +1,48 @@
+TODO
+
+Add Caster's name to tokens
+Such as Enchant Armor
+Fighters Intuition
+Ghost Blade
+Etc.
+
+Corpse:
+searching bodies
+Rendering Soulless
+    Scoreboard under name
+Names/nicknames
+Dragging/dropping
+
+Classbot
+Hashmap name to spellprofile
+Spell interface
+
+Spells
+
+
+Old scoreboard stuff - could be useful for finding Marshals
+org.bukkit.scoreboard.Scoreboard scoreboard = p.getScoreboard();
+
+        Team bodies = null;
+
+        for(Team team : scoreboard.getTeams()) {
+            if(team.getName().equals("bodies")) {
+                bodies = team;
+                break;
+            }
+        }
+
+        if(bodies == null) {
+            bodies = scoreboard.registerNewTeam("bodies");
+            bodies.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
+        }
+
+        bodies.addEntry(corpse.co());
+
+        Weird Scoreboard stuff...
+        //Show Soulless blows.
+        //net.minecraft.world.scores.Scoreboard scoreboard = new net.minecraft.world.scores.Scoreboard();
+        //ScoreboardObjective soulBlows = new ScoreboardObjective(scoreboard, "/ 200", IScoreboardCriteria.a, IChatBaseComponent.a("89"), IScoreboardCriteria.EnumScoreboardHealthDisplay.a);
+
+        //connection.a(new PacketPlayOutScoreboardObjective(soulBlows, 99));
+        //connection.a(new PacketPlayOutScoreboardDisplayObjective(2, soulBlows));
