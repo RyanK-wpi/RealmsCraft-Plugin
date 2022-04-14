@@ -3,6 +3,7 @@ package me.copdead.realmscraft_death_test.menu.menus;
 import me.copdead.realmscraft_death_test.menu.Menu;
 import me.copdead.realmscraft_death_test.menu.MenuManager;
 import me.copdead.realmscraft_death_test.menu.PlayerMenuUtility;
+import me.copdead.realmscraft_death_test.player_class.player_classes.Fighter;
 import me.copdead.realmscraft_death_test.spells.SpellBook;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,9 +38,7 @@ public class ClassSelectMenu extends Menu {
         switch (e.getCurrentItem().getType()) {
             case IRON_SWORD:
                 p.closeInventory();
-                p.sendMessage("You have selected Fighter, have fun!");
-                p.getInventory().removeItem(new SpellBook().getBook()); //TODO this should probably go in "give fighter stuff"
-                //give them fighter stuff
+                new Fighter().giveClassItems(p);
                 break;
             case ENCHANTED_BOOK:
                 p.closeInventory();

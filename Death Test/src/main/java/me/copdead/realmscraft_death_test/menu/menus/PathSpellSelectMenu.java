@@ -2,9 +2,14 @@ package me.copdead.realmscraft_death_test.menu.menus;
 
 import me.copdead.realmscraft_death_test.menu.Menu;
 import me.copdead.realmscraft_death_test.menu.PlayerMenuUtility;
+import me.copdead.realmscraft_death_test.player_class.player_classes.Caster1Path;
+import me.copdead.realmscraft_death_test.player_class.player_classes.Caster2Path;
+import me.copdead.realmscraft_death_test.player_class.player_classes.Caster3Path;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,7 +18,11 @@ import java.util.ArrayList;
 public class PathSpellSelectMenu extends Menu {
     private int path;
     private ItemStack spell;
-    private boolean armored;
+    private ItemStack closed;
+    private ItemStack confirm;
+    private ItemStack back;
+    private ItemStack armor;
+    private boolean armored = false;
 
     PathSpellSelectMenu(PlayerMenuUtility pmu, int path) {
         super(pmu);
@@ -24,6 +33,45 @@ public class PathSpellSelectMenu extends Menu {
         ItemMeta spellMeta = spell.getItemMeta();
         spellMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Choose a Spell");
         spell.setItemMeta(spellMeta);
+
+        closed = new ItemStack(Material.BARRIER);
+        ItemMeta closedMeta = closed.getItemMeta();
+        closedMeta.setDisplayName(ChatColor.DARK_RED + "SPELL UNAVAILABLE");
+        ArrayList<String> closedLore = new ArrayList<>();
+        closedLore.add(ChatColor.RED + "Choose a higher path");
+        closedLore.add(ChatColor.RED + "or remove your armor");
+        closedLore.add(ChatColor.RED + "to use this spell");
+        closedMeta.setLore(closedLore);
+        closed.setItemMeta(closedMeta);
+
+        confirm = new ItemStack(Material.EMERALD);
+        ItemMeta confirmMeta = confirm.getItemMeta();
+        confirmMeta.setDisplayName(ChatColor.GREEN + "Confirm Spell List");
+        ArrayList<String> confirmLore = new ArrayList<>();
+        confirmLore.add(ChatColor.YELLOW + "Warning: You will not be able");
+        confirmLore.add(ChatColor.YELLOW + "to change your spells after");
+        confirmLore.add(ChatColor.YELLOW + "confirming");
+        confirmMeta.setLore(confirmLore);
+        confirm.setItemMeta(confirmMeta);
+
+        back = new ItemStack(Material.BARRIER);
+        ItemMeta backMeta = back.getItemMeta();
+        backMeta.setDisplayName(ChatColor.DARK_RED + "Back to Class Selection");
+        ArrayList<String> backLore = new ArrayList<>();
+        backLore.add(ChatColor.YELLOW + "Warning: Your selected spells");
+        backLore.add(ChatColor.YELLOW + "will not be saved!");
+        backMeta.setLore(backLore);
+        back.setItemMeta(backMeta);
+
+        armor = new ItemStack(Material.LEATHER_CHESTPLATE);
+        ItemMeta armorMeta = armor.getItemMeta();
+        armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Add Armor");
+        ArrayList<String> armorLore = new ArrayList<>();
+        armorLore.add(ChatColor.AQUA + "Adds one point of armor");
+        armorLore.add(ChatColor.AQUA + "But removes your top spell");
+        armorLore.add(ChatColor.AQUA + "in every path.");
+        armorMeta.setLore(armorLore);
+        armor.setItemMeta(armorMeta);
     }
 
     @Override
@@ -50,6 +98,43 @@ public class PathSpellSelectMenu extends Menu {
                 pmu.setSpellsList(null);
                 break;
 
+            case LEATHER_CHESTPLATE:
+                if(e.getCurrentItem().getItemMeta().hasEnchant(Enchantment.MENDING)) {
+                    armored = false;
+                    ItemMeta armorMeta = armor.getItemMeta();
+                    armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Add Armor");
+                    armorMeta.removeEnchant(Enchantment.MENDING);
+                    armor.setItemMeta(armorMeta);
+                    inventory.setItem(7, armor);
+
+                    switch (path) {
+                        case 3:
+                            inventory.setItem(41, spell);
+                        case 2:
+                            inventory.setItem(49, spell);
+                            inventory.setItem(39, spell);
+                            break;
+                    }
+                    break;
+                }
+                armored = true;
+                ItemMeta armorMeta = armor.getItemMeta();
+                armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Remove Armor");
+                armorMeta.addEnchant(Enchantment.MENDING, 1, true);
+                armorMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                armor.setItemMeta(armorMeta);
+                inventory.setItem(7, armor);
+
+                switch (path) {
+                    case 3:
+                        inventory.setItem(41, closed);
+                    case 2:
+                        inventory.setItem(39, closed);
+                        inventory.setItem(49, closed);
+                        break;
+                }
+                break;
+
             case EMERALD:
                 for(ItemStack item : inventory.getContents()) {
                     if(item == null) continue;
@@ -60,6 +145,22 @@ public class PathSpellSelectMenu extends Menu {
                 }
                 e.getWhoClicked().closeInventory();
                 pmu.setSpellsList(new SpellListMenu(pmu, inventory));
+                switch (path) {
+                    case 1:
+                        Caster1Path caster1 = new Caster1Path();
+                        caster1.giveClassItems(pmu.getOwner());
+                        break;
+                    case 2:
+                        Caster2Path caster2 = new Caster2Path();
+                        caster2.setArmored(armored);
+                        caster2.giveClassItems(pmu.getOwner());
+                        break;
+                    case 3:
+                        Caster3Path caster3 = new Caster3Path();
+                        caster3.setArmored(armored);
+                        caster3.giveClassItems(pmu.getOwner());
+                        break;
+                }
                 break;
 
             default:
@@ -70,35 +171,6 @@ public class PathSpellSelectMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        ItemStack closed = new ItemStack(Material.BARRIER);
-        ItemMeta closedMeta = closed.getItemMeta();
-        closedMeta.setDisplayName(ChatColor.DARK_RED + "SPELL UNAVAILABLE");
-        ArrayList<String> closedLore = new ArrayList<>();
-        closedLore.add(ChatColor.RED + "Choose a higher path");
-        closedLore.add(ChatColor.RED + "or remove your armor");
-        closedLore.add(ChatColor.RED + "to use this spell");
-        closedMeta.setLore(closedLore);
-        closed.setItemMeta(closedMeta);
-
-        ItemStack confirm = new ItemStack(Material.EMERALD);
-        ItemMeta confirmMeta = confirm.getItemMeta();
-        confirmMeta.setDisplayName(ChatColor.GREEN + "Confirm Spell List");
-        ArrayList<String> confirmLore = new ArrayList<>();
-        confirmLore.add(ChatColor.YELLOW + "Warning: You will not be able");
-        confirmLore.add(ChatColor.YELLOW + "to change your spells after");
-        confirmLore.add(ChatColor.YELLOW + "confirming");
-        confirmMeta.setLore(confirmLore);
-        confirm.setItemMeta(confirmMeta);
-
-        ItemStack back = new ItemStack(Material.BARRIER);
-        ItemMeta backMeta = back.getItemMeta();
-        backMeta.setDisplayName(ChatColor.DARK_RED + "Back to Class Selection");
-        ArrayList<String> backLore = new ArrayList<>();
-        backLore.add(ChatColor.YELLOW + "Warning: Your selected spells");
-        backLore.add(ChatColor.YELLOW + "will not be saved!");
-        backMeta.setLore(backLore);
-        back.setItemMeta(backMeta);
-
         switch (path) {
             case 3:
                 inventory.setItem(5, spell);
@@ -122,9 +194,14 @@ public class PathSpellSelectMenu extends Menu {
         }
 
         if(armored) {
-            inventory.setItem(41, closed);
-            inventory.setItem(49, closed);
-            inventory.setItem(39, closed);
+            switch (path) {
+                case 3:
+                    inventory.setItem(39, closed);
+                case 2:
+                    inventory.setItem(49, closed);
+                    inventory.setItem(41, closed);
+                    break;
+            }
         }
 
         //set the Filler Glass
@@ -175,5 +252,9 @@ public class PathSpellSelectMenu extends Menu {
         inventory.setItem(51, FILLER_GLASS);
         inventory.setItem(52, confirm);
         inventory.setItem(53, FILLER_GLASS);
+
+        if(path > 1) {
+            inventory.setItem(7, armor);
+        }
     }
 }

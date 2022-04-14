@@ -47,6 +47,7 @@ public class SpellListMenu extends Menu {
             inventory.setItem(i, spellSelectInv.getItem(i));
         }
         //remove buttons
+        inventory.setItem(7, FILLER_GLASS);
         inventory.setItem(46, FILLER_GLASS);
         inventory.setItem(52, FILLER_GLASS);
     }
