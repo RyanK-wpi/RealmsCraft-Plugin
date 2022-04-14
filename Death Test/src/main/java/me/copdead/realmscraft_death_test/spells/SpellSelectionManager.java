@@ -1,7 +1,6 @@
 package me.copdead.realmscraft_death_test.spells;
 
 import me.copdead.realmscraft_death_test.spells.circle1spells.CureDisease;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

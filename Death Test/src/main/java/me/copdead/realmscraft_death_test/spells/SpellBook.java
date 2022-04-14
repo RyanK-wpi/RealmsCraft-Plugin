@@ -1,6 +1,7 @@
 package me.copdead.realmscraft_death_test.spells;
 
 import me.copdead.realmscraft_death_test.menu.MenuManager;
+import me.copdead.realmscraft_death_test.menu.PlayerMenuUtility;
 import me.copdead.realmscraft_death_test.menu.menus.ClassSelectMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -29,8 +30,10 @@ public class SpellBook {
     }
 
     public void useBook(Player caster) {
-        if (MenuManager.getPlayerMenuUtility(caster).getSpellsList() == null)
+        if (MenuManager.getPlayerMenuUtility(caster).getSpellsList() == null) {
             new ClassSelectMenu(MenuManager.getPlayerMenuUtility(caster)).open();
+            return;
+        }
 
         MenuManager.getPlayerMenuUtility(caster).getSpellsList().open();
     }

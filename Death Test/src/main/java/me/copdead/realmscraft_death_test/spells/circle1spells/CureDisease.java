@@ -23,4 +23,9 @@ public class CureDisease extends Spell {
         caster.sendMessage("Target: " + target.getName());
     }
 
+    @Override
+    public void getDescription(Player caster) {
+        caster.sendMessage("This spell cures diseases!");
+    }
+
 }

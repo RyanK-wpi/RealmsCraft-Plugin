@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -29,6 +30,8 @@ public class SpellEventManager implements Listener {
 
     @EventHandler
     public void onUse(PlayerInteractEvent event) {
+        if(event.getHand() == EquipmentSlot.OFF_HAND) return;
+
         if(event.getItem() != null && event.getItem().isSimilar(new SpellBook().getBook())) {
             new SpellBook().useBook(event.getPlayer());
         }

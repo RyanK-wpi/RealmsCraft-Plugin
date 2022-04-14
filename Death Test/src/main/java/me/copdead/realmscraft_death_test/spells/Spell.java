@@ -36,7 +36,7 @@ public abstract class Spell {
         meta.setLore(Collections.singletonList("Spell Focus"));
         meta.setCustomModelData(model);
         meta.getPersistentDataContainer().set(
-                new NamespacedKey(plugin, "spellcirlce"), PersistentDataType.INTEGER, circle);
+                new NamespacedKey(plugin, "spellcircle"), PersistentDataType.INTEGER, circle);
         focus.setItemMeta(meta);
 
         spell = focus;
@@ -44,7 +44,7 @@ public abstract class Spell {
 
     public abstract void castSpell(Player caster);
 
-    //public abstract void getDescription();
+    public abstract void getDescription(Player caster);
 
     protected void registerSpell() {
         //add spell to the list

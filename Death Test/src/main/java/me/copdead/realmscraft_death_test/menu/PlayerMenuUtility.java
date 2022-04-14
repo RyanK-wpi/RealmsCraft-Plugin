@@ -5,7 +5,7 @@ import org.bukkit.inventory.Inventory;
 
 public class PlayerMenuUtility {
     private Player owner;
-    private Menu spellsList;
+    private Menu spellsList = null;
 
     PlayerMenuUtility(Player owner) {
         this.owner = owner;

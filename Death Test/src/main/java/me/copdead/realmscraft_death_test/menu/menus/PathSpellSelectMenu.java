@@ -12,12 +12,18 @@ import java.util.ArrayList;
 
 public class PathSpellSelectMenu extends Menu {
     private int path;
+    private ItemStack spell;
     private boolean armored;
 
     PathSpellSelectMenu(PlayerMenuUtility pmu, int path) {
         super(pmu);
         this.path = path;
         pmu.setSpellsList(this);
+
+        spell = new ItemStack(Material.STICK);
+        ItemMeta spellMeta = spell.getItemMeta();
+        spellMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Choose a Spell");
+        spell.setItemMeta(spellMeta);
     }
 
     @Override
@@ -34,24 +40,36 @@ public class PathSpellSelectMenu extends Menu {
     public void handleMenu(InventoryClickEvent e) {
         if(e.getCurrentItem() == null
                 || e.getCurrentItem().getType() == Material.AIR
-                || e.getCurrentItem().getType() == Material.BARRIER
                 || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) return;
 
-        new CircleSpellSelectMenu(pmu, e.getSlot(), (int) Math.ceil(e.getSlot()/9.0), (int) Math.ceil(e.getSlot()/9.0)).open();
+        switch (e.getCurrentItem().getType()) {
+            case BARRIER:
+                if(!e.getCurrentItem().getItemMeta().getDisplayName().contains("Back")) return;
 
-        //TODO Confirm Spell list and Back buttons -> include warnings
-        //Confirm spell list -> new SpellListMenu(Menu PathSpellSelectMenu)
-        //take in this menu, replace inventory, remove buttons, change handler so that clicking gets spell descritption
-        //set self PMU spellList, so spellcaster clicking book afterwards opens that version instead
+                new ClassSelectMenu(pmu).open();
+                pmu.setSpellsList(null);
+                break;
+
+            case EMERALD:
+                for(ItemStack item : inventory.getContents()) {
+                    if(item == null) continue;
+                    if(item.isSimilar(spell)) {
+                        pmu.getOwner().sendMessage("You have unselected spells!");
+                        return;
+                    }
+                }
+                e.getWhoClicked().closeInventory();
+                pmu.setSpellsList(new SpellListMenu(pmu, inventory));
+                break;
+
+            default:
+                new CircleSpellSelectMenu(pmu, e.getSlot(), (int) Math.ceil(e.getSlot()/9.0), (int) Math.ceil(e.getSlot()/9.0)).open();
+                break;
+        }
     }
 
     @Override
     public void setMenuItems() {
-        ItemStack spell = new ItemStack(Material.STICK);
-        ItemMeta spellMeta = spell.getItemMeta();
-        spellMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Choose a Spell");
-        spell.setItemMeta(spellMeta);
-
         ItemStack closed = new ItemStack(Material.BARRIER);
         ItemMeta closedMeta = closed.getItemMeta();
         closedMeta.setDisplayName(ChatColor.DARK_RED + "SPELL UNAVAILABLE");
@@ -61,6 +79,25 @@ public class PathSpellSelectMenu extends Menu {
         closedLore.add(ChatColor.RED + "to use this spell");
         closedMeta.setLore(closedLore);
         closed.setItemMeta(closedMeta);
+
+        ItemStack confirm = new ItemStack(Material.EMERALD);
+        ItemMeta confirmMeta = confirm.getItemMeta();
+        confirmMeta.setDisplayName(ChatColor.GREEN + "Confirm Spell List");
+        ArrayList<String> confirmLore = new ArrayList<>();
+        confirmLore.add(ChatColor.YELLOW + "Warning: You will not be able");
+        confirmLore.add(ChatColor.YELLOW + "to change your spells after");
+        confirmLore.add(ChatColor.YELLOW + "confirming");
+        confirmMeta.setLore(confirmLore);
+        confirm.setItemMeta(confirmMeta);
+
+        ItemStack back = new ItemStack(Material.BARRIER);
+        ItemMeta backMeta = back.getItemMeta();
+        backMeta.setDisplayName(ChatColor.DARK_RED + "Back to Class Selection");
+        ArrayList<String> backLore = new ArrayList<>();
+        backLore.add(ChatColor.YELLOW + "Warning: Your selected spells");
+        backLore.add(ChatColor.YELLOW + "will not be saved!");
+        backMeta.setLore(backLore);
+        back.setItemMeta(backMeta);
 
         switch (path) {
             case 3:
@@ -132,11 +169,11 @@ public class PathSpellSelectMenu extends Menu {
         inventory.setItem(44, FILLER_GLASS);
 
         inventory.setItem(45, FILLER_GLASS);
-        inventory.setItem(46, FILLER_GLASS);
+        inventory.setItem(46, back);
         inventory.setItem(47, FILLER_GLASS);
         //SPELLS
         inventory.setItem(51, FILLER_GLASS);
-        inventory.setItem(52, FILLER_GLASS);
+        inventory.setItem(52, confirm);
         inventory.setItem(53, FILLER_GLASS);
     }
 }

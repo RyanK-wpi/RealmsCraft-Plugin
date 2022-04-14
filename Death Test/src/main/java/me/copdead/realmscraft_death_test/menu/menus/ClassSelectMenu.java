@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -54,7 +53,7 @@ public class ClassSelectMenu extends Menu {
         //Fighter
         ItemStack fighter = new ItemStack(Material.IRON_SWORD, 1);
         ItemMeta f_meta = fighter.getItemMeta();
-        f_meta.setDisplayName(ChatColor.GOLD + "Fighter");
+        f_meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Fighter");
         ArrayList<String> f_lore = new ArrayList<>();
         f_lore.add(ChatColor.AQUA + "Two armor bars");
         f_lore.add(ChatColor.AQUA + "and all weapons");
@@ -64,7 +63,7 @@ public class ClassSelectMenu extends Menu {
         //1 path
         ItemStack path1 = new ItemStack(Material.ENCHANTED_BOOK, 1);
         ItemMeta meta_1 = path1.getItemMeta();
-        meta_1.setDisplayName(ChatColor.GOLD + "One Path");
+        meta_1.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "One Path");
         ArrayList<String> lore_1 = new ArrayList<>();
         lore_1.add(ChatColor.AQUA + "One armor bar");
         lore_1.add(ChatColor.AQUA + "and 5 spells");
@@ -74,7 +73,7 @@ public class ClassSelectMenu extends Menu {
         //2 path
         ItemStack path2 = new ItemStack(Material.ENCHANTED_BOOK, 2);
         ItemMeta meta_2 = path2.getItemMeta();
-        meta_2.setDisplayName(ChatColor.GOLD + "Two Path");
+        meta_2.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Two Path");
         ArrayList<String> lore_2 = new ArrayList<>();
         lore_2.add(ChatColor.AQUA + "No armor bar");
         lore_2.add(ChatColor.AQUA + "and 11 spells");
@@ -84,7 +83,7 @@ public class ClassSelectMenu extends Menu {
         //3 path
         ItemStack path3 = new ItemStack(Material.ENCHANTED_BOOK, 3);
         ItemMeta meta_3 = path3.getItemMeta();
-        meta_3.setDisplayName(ChatColor.GOLD + "Three Path");
+        meta_3.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Three Path");
         ArrayList<String> lore_3 = new ArrayList<>();
         lore_3.add(ChatColor.AQUA + "No armor bar");
         lore_3.add(ChatColor.AQUA + "and 16 spells");

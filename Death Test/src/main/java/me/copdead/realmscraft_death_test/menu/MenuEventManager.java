@@ -1,6 +1,5 @@
 package me.copdead.realmscraft_death_test.menu;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,6 +13,7 @@ public class MenuEventManager implements Listener {
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
+        if(event.getClickedInventory() == null) return;                         //clicked outside inventory
         if(event.getClickedInventory().getHolder() == null) return;
         InventoryHolder holder = event.getClickedInventory().getHolder();
 

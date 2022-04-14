@@ -1,5 +1,6 @@
 package me.copdead.realmscraft_death_test.commands;
 
+import me.copdead.realmscraft_death_test.menu.MenuManager;
 import me.copdead.realmscraft_death_test.spells.SpellBook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,8 +26,9 @@ public class SelectClass implements CommandExecutor {
                 return true;
             }
 
-            //Give player class select book
+            //Give player class select book and reset class selection
             player.getInventory().addItem(new SpellBook().getBook());
+            MenuManager.getPlayerMenuUtility(player).setSpellsList(null);
             return true;
         }
 
@@ -37,6 +39,7 @@ public class SelectClass implements CommandExecutor {
 
         Player player = (Player) sender;
         player.getInventory().addItem(new SpellBook().getBook());
+        MenuManager.getPlayerMenuUtility(player).setSpellsList(null);
         return true;
     }
 }
