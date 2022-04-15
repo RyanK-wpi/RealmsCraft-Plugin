@@ -13,14 +13,18 @@ import java.util.Collections;
 
 public abstract class Spell {
     private static final Realmscraft_death_test plugin = (Realmscraft_death_test) Bukkit.getPluginManager().getPlugin("Realmscraft_death_test");
-    protected String name;
-    //protected Player caster;
+    private String name;
     protected ItemStack spell = null;
-    protected int model;
-    protected int circle;
-    //store circle?
-    //cooldowns?
-    //useful things: casted spell, marshal request,
+    private int model;
+    private int circle;
+
+    public Spell(String name, int circle, int model) {
+        this.name = name;
+        this.circle = circle;
+        this.model = model;
+
+        registerSpell();
+    }
 
     public ItemStack getSpell() {
         if(spell ==  null) createSpell();
@@ -42,15 +46,18 @@ public abstract class Spell {
         spell = focus;
     }
 
-    public abstract void castSpell(Player caster);
+    public abstract void spellEffect(Player caster);
 
     public abstract void getDescription(Player caster);
 
-    protected void registerSpell() {
-        //add spell to the list
-        SpellSelectionManager.getSpells().get(circle).put(getSpell(), this);
+    void castSpell(Player caster) {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> spellEffect(caster), 0);
     }
 
+    private void registerSpell() {
+        //add spell to the list
+        SpellSelectionManager.getSpells().get(circle).put(name, this);
+    }
 
     //get Cooldown
     //create cooldown

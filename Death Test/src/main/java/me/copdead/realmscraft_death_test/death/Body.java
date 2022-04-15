@@ -8,8 +8,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.UUID;
-
 public class Body {
     //private ServerPlayer corpse;
     private EntityPlayer corpse;

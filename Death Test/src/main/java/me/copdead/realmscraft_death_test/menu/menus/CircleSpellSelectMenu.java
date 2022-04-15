@@ -127,7 +127,7 @@ public class CircleSpellSelectMenu extends Menu {
         inventory.getItem(spellsSelect).setType(Material.ENCHANTED_BOOK);
 
         //filter in spells
-        HashMap<ItemStack, Spell> spellList = SpellSelectionManager.getSpells().get(spellsSelect);
+        HashMap<String, Spell> spellList = SpellSelectionManager.getSpells().get(spellsSelect);
         int i = 0;
         for(Spell spell : spellList.values()) {
             inventory.setItem(9 + i, spell.getSpell());
