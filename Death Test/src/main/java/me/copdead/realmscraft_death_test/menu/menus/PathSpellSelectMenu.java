@@ -36,10 +36,9 @@ public class PathSpellSelectMenu extends Menu {
 
         closed = new ItemStack(Material.BARRIER);
         ItemMeta closedMeta = closed.getItemMeta();
-        closedMeta.setDisplayName(ChatColor.DARK_RED + "SPELL UNAVAILABLE");
+        closedMeta.setDisplayName(ChatColor.DARK_RED + "Spell Unavailable");
         ArrayList<String> closedLore = new ArrayList<>();
-        closedLore.add(ChatColor.RED + "Choose a higher path");
-        closedLore.add(ChatColor.RED + "or remove your armor");
+        closedLore.add(ChatColor.RED + "Remove your armor");
         closedLore.add(ChatColor.RED + "to use this spell");
         closedMeta.setLore(closedLore);
         closed.setItemMeta(closedMeta);
@@ -58,14 +57,15 @@ public class PathSpellSelectMenu extends Menu {
         ItemMeta backMeta = back.getItemMeta();
         backMeta.setDisplayName(ChatColor.DARK_RED + "Back to Class Selection");
         ArrayList<String> backLore = new ArrayList<>();
-        backLore.add(ChatColor.YELLOW + "Warning: Your selected spells");
-        backLore.add(ChatColor.YELLOW + "will not be saved!");
+        backLore.add(ChatColor.YELLOW + "Warning: Your selected");
+        backLore.add(ChatColor.YELLOW + "spells will not be saved!");
         backMeta.setLore(backLore);
         back.setItemMeta(backMeta);
 
         armor = new ItemStack(Material.LEATHER_CHESTPLATE);
         ItemMeta armorMeta = armor.getItemMeta();
         armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Add Armor");
+        armorMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ArrayList<String> armorLore = new ArrayList<>();
         armorLore.add(ChatColor.AQUA + "Adds one point of armor");
         armorLore.add(ChatColor.AQUA + "But removes your top spell");
@@ -104,6 +104,7 @@ public class PathSpellSelectMenu extends Menu {
                     ItemMeta armorMeta = armor.getItemMeta();
                     armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Add Armor");
                     armorMeta.removeEnchant(Enchantment.MENDING);
+                    armorMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                     armor.setItemMeta(armorMeta);
                     inventory.setItem(7, armor);
 
@@ -121,6 +122,7 @@ public class PathSpellSelectMenu extends Menu {
                 ItemMeta armorMeta = armor.getItemMeta();
                 armorMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Remove Armor");
                 armorMeta.addEnchant(Enchantment.MENDING, 1, true);
+                armorMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 armorMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 armor.setItemMeta(armorMeta);
                 inventory.setItem(7, armor);

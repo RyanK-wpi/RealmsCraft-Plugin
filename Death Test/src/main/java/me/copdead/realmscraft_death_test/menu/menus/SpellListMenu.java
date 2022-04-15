@@ -38,7 +38,8 @@ public class SpellListMenu extends Menu {
                 || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) return;
 
         int circle = e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "spellcircle"), PersistentDataType.INTEGER);
-        SpellSelectionManager.getSpells().get(circle).get(e.getCurrentItem()).getDescription((Player) e.getWhoClicked());
+        String name = e.getCurrentItem().getItemMeta().getDisplayName();
+        SpellSelectionManager.getSpells().get(circle).get(name).getDescription((Player) e.getWhoClicked());
     }
 
     @Override
