@@ -1,28 +1,28 @@
 package me.copdead.realmscraft_death_test.spells;
 
 import me.copdead.realmscraft_death_test.Realmscraft_death_test;
-import me.copdead.realmscraft_death_test.death.DeathBodyManager;
 import me.copdead.realmscraft_death_test.events.ClickBodyEvent;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SpellEventManager implements Listener {
     private final Realmscraft_death_test plugin;
-    private final DeathBodyManager bodyManager;
 
     public SpellEventManager(Realmscraft_death_test plugin) {
         this.plugin = plugin;
-        this.bodyManager = plugin.getBodyManager();
     }
 
     @EventHandler
@@ -43,12 +43,15 @@ public class SpellEventManager implements Listener {
 
         //Check if spell
         ItemStack focus = event.getItem();
-        if(focus == null || !focus.getType().equals(Material.STICK)) return;
+        if(focus == null || !focus.getType().equals(Material.WOODEN_SWORD)) return;
         if(focus.getItemMeta() == null || focus.getItemMeta().getLore() == null) return;
         if(!focus.getItemMeta().getLore().toString().contains("Spell Focus")) return;
 
+        //Check if on cooldown
+        if(((Damageable) focus.getItemMeta()).hasDamage()) return;
+
         //Cast the spell
-        if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             int circle = focus.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "spellcircle"), PersistentDataType.INTEGER);
             String name = focus.getItemMeta().getDisplayName();
             SpellSelectionManager.getSpells().get(circle).get(name).castSpell(event.getPlayer());
@@ -56,11 +59,27 @@ public class SpellEventManager implements Listener {
     }
 
     @EventHandler
+    public void onSelectSpell(PlayerItemHeldEvent event) {
+        //Check if spell
+        ItemStack focus = event.getPlayer().getInventory().getItem(event.getNewSlot());
+        if(focus == null || !focus.getType().equals(Material.WOODEN_SWORD)) return;
+        if(focus.getItemMeta() == null || focus.getItemMeta().getLore() == null) return;
+        if(!focus.getItemMeta().getLore().toString().contains("Spell Focus")) return;
+
+        //show remaining uses
+        int uses = SpellSelectionManager.getSpellCounter().getObjective(focus.getItemMeta().getDisplayName()).getScore(event.getPlayer().getName()).getScore();
+        if(uses < 1) return;
+        TextComponent message = new TextComponent("Uses: " + uses);
+        message.setItalic(true);
+        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, message);
+    }
+
+    @EventHandler
     public void onClickBody(ClickBodyEvent event) {
         if(event.getAction() == Action.RIGHT_CLICK_AIR) {
             //check for spell
             ItemStack focus = event.getPlayer().getInventory().getItemInMainHand();
-            if(!focus.getType().equals(Material.STICK)) return;
+            if(!focus.getType().equals(Material.WOODEN_SWORD)) return;
             if(focus.getItemMeta() == null || focus.getItemMeta().getLore() == null) return;
             if(!focus.getItemMeta().getLore().toString().contains("Spell Focus")) return;
 
@@ -84,7 +103,7 @@ public class SpellEventManager implements Listener {
     public void onDropSpell(InventoryClickEvent event) {
         //check if spell
         ItemStack focus = event.getCurrentItem();
-        if(focus == null || !focus.getType().equals(Material.STICK)) return;
+        if(focus == null || !focus.getType().equals(Material.WOODEN_SWORD)) return;
         if(focus.getItemMeta() == null || focus.getItemMeta().getLore() == null) return;
         if(!focus.getItemMeta().getLore().toString().contains("Spell Focus")) return;
 
@@ -95,7 +114,7 @@ public class SpellEventManager implements Listener {
     @EventHandler
     public void onClickSpell(InventoryClickEvent event) {
         ItemStack focus = event.getCurrentItem();
-        if(focus == null || !focus.getType().equals(Material.STICK)) return;
+        if(focus == null || !focus.getType().equals(Material.WOODEN_SWORD)) return;
         if(focus.getItemMeta() == null || focus.getItemMeta().getLore() == null) return;
         if(!focus.getItemMeta().getLore().toString().equalsIgnoreCase("spell focus")) return;
 

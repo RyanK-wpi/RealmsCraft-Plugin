@@ -21,8 +21,6 @@ public final class Realmscraft_death_test extends JavaPlugin {
     private DeathBodyManager bodyManager;
     private DeathPlayerManager deadPlayerManager;
     private PacketReaderManager packetManager;
-    private MenuManager menuManager;
-    private SpellSelectionManager spellManager;
 
     private DataManager dataManager;
 
@@ -34,8 +32,8 @@ public final class Realmscraft_death_test extends JavaPlugin {
         this.bodyManager = new DeathBodyManager(this);
         this.packetManager = new PacketReaderManager(this);
         this.deadPlayerManager = new DeathPlayerManager(this);
-        this.menuManager = new MenuManager();
-        this.spellManager = new SpellSelectionManager();
+        MenuManager menuManager = new MenuManager();
+        SpellSelectionManager spellManager = new SpellSelectionManager();
 
         //re-inject online players
         if(!Bukkit.getOnlinePlayers().isEmpty())
@@ -75,4 +73,6 @@ public final class Realmscraft_death_test extends JavaPlugin {
     public DataManager getDataManager() {
         return dataManager;
     }
+
+
 }

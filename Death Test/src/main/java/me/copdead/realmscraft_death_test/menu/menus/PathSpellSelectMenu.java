@@ -29,9 +29,10 @@ public class PathSpellSelectMenu extends Menu {
         this.path = path;
         pmu.setSpellsList(this);
 
-        spell = new ItemStack(Material.STICK);
+        spell = new ItemStack(Material.WOODEN_SWORD);
         ItemMeta spellMeta = spell.getItemMeta();
         spellMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Choose a Spell");
+        spellMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         spell.setItemMeta(spellMeta);
 
         closed = new ItemStack(Material.BARRIER);
@@ -68,8 +69,8 @@ public class PathSpellSelectMenu extends Menu {
         armorMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ArrayList<String> armorLore = new ArrayList<>();
         armorLore.add(ChatColor.AQUA + "Adds one point of armor");
-        armorLore.add(ChatColor.AQUA + "But removes your top spell");
-        armorLore.add(ChatColor.AQUA + "in every path.");
+        armorLore.add(ChatColor.AQUA + "But removes your highest");
+        armorLore.add(ChatColor.AQUA + "circle spell in every path");
         armorMeta.setLore(armorLore);
         armor.setItemMeta(armorMeta);
     }

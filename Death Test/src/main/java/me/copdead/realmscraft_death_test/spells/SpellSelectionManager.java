@@ -2,7 +2,10 @@ package me.copdead.realmscraft_death_test.spells;
 
 import me.copdead.realmscraft_death_test.death.Body;
 import me.copdead.realmscraft_death_test.spells.circle1spells.CureDisease;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +24,12 @@ public class SpellSelectionManager {
 
     private static HashMap<Player, Body> bodySpellList = new HashMap<>();
 
+    private static Scoreboard spellCounter;
+
     public SpellSelectionManager() {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        spellCounter = manager.getNewScoreboard();
+
         initializeSpells();
     }
 
@@ -31,6 +39,10 @@ public class SpellSelectionManager {
 
     public static HashMap<Player, Body> getBodySpellList() {
         return bodySpellList;
+    }
+
+    public static Scoreboard getSpellCounter() {
+        return spellCounter;
     }
 
     private void initializeSpells() {

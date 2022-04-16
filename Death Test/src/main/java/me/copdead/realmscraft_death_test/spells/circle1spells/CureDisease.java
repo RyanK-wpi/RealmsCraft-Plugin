@@ -13,7 +13,7 @@ public class CureDisease extends Spell implements Cast, Cooldown {
     private static final Realmscraft_death_test plugin = (Realmscraft_death_test) Bukkit.getPluginManager().getPlugin("Realmscraft_death_test");
 
     public CureDisease() {
-        super("Cure Disease", 1, 101);
+        super("Cure Disease", 1, 5, 101);
     }
 
     @Override
@@ -31,6 +31,8 @@ public class CureDisease extends Spell implements Cast, Cooldown {
             Entity entity = (Entity) target;
             caster.sendMessage("Target: " + entity.getName());
         }
+
+        Cooldown.cooldownLimited(caster, 10, this);
     }
 
     @Override

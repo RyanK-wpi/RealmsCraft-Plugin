@@ -84,7 +84,7 @@ public class CircleSpellSelectMenu extends Menu {
         //Spell circle selectors
         ItemStack circleAvailable = new ItemStack(Material.BOOK, 6);
         ItemMeta circleMeta = circleAvailable.getItemMeta();
-        circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a Sixth Circle Spell");
+        circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 6th Circle Spells");
         circleAvailable.setItemMeta(circleMeta);
 
         switch (spellsLevel) {
@@ -92,31 +92,31 @@ public class CircleSpellSelectMenu extends Menu {
                 inventory.setItem(6, circleAvailable);
             case 5:
                 circleAvailable.setAmount(5);
-                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a Fifth Circle Spell");
+                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 5th Circle Spells");
                 circleAvailable.setItemMeta(circleMeta);
 
                 inventory.setItem(5, circleAvailable);
             case 4:
                 circleAvailable.setAmount(4);
-                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a Fourth Circle Spell");
+                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 4th Circle Spells");
                 circleAvailable.setItemMeta(circleMeta);
 
                 inventory.setItem(4, circleAvailable);
             case 3:
                 circleAvailable.setAmount(3);
-                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a Third Circle Spell");
+                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 3rd Circle Spells");
                 circleAvailable.setItemMeta(circleMeta);
 
                 inventory.setItem(3, circleAvailable);
             case 2:
                 circleAvailable.setAmount(2);
-                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a Second Circle Spell");
+                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 2nd Circle Spells");
                 circleAvailable.setItemMeta(circleMeta);
 
                 inventory.setItem(2, circleAvailable);
             case 1:
                 circleAvailable.setAmount(1);
-                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select a First Circle Spell");
+                circleMeta.setDisplayName(ChatColor.DARK_PURPLE + "Select from 1st Circle Spells");
                 circleAvailable.setItemMeta(circleMeta);
 
                 inventory.setItem(1, circleAvailable);
