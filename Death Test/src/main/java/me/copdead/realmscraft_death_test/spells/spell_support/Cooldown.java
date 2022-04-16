@@ -17,13 +17,6 @@ import org.bukkit.scoreboard.Score;
 public interface Cooldown {
     Realmscraft_death_test plugin = (Realmscraft_death_test) Bukkit.getPluginManager().getPlugin("Realmscraft_death_test");
 
-    //Number of uses left displayed as a Title Screen? (number defined in implementation, given to cooldown interface)
-
-    //Store amount in scoreboards -> named with spell. (add int amount to spell, have it initialize scoreboards in playerCasterClass
-
-    //KNOWN BUGS - IF ITEM IS PICKED UP IN INVENTORY, BUKKITRUNNABLE LOSES TRACK OF IT
-
-
     static void cooldownLimited(Player p, long delay, Spell spell) {
         Score score = SpellSelectionManager.getSpellCounter().getObjective(spell.getName()).getScore(p.getName());
         int amount = score.getScore();
