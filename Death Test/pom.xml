@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.copdead</groupId>
-    <artifactId>realmscraft_death_test</artifactId>
+    <artifactId>realmscraft</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Realmscraft_death_test</name>
+    <name>RealmsCraft</name>
 
     <properties>
         <java.version>16</java.version>
